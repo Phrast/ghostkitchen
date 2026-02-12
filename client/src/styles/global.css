@@ -342,3 +342,166 @@ a {
   padding: 40px;
   font-size: 1.1rem;
 }
+
+/* Service Page */
+.service-page h2 {
+  margin-bottom: 16px;
+}
+
+.btn-start {
+  padding: 10px 24px;
+  background: #2ed573;
+  color: #1a1a2e;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+
+.btn-stop {
+  padding: 10px 24px;
+  background: #ff4757;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+
+/* Satisfaction Bar */
+.satisfaction-bar {
+  margin-bottom: 16px;
+}
+
+.satisfaction-label {
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+}
+
+.satisfaction-track {
+  height: 12px;
+  background: #333;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.satisfaction-fill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.4s, background 0.4s;
+}
+
+/* Order Queue */
+.order-queue {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Order Card */
+.order-card {
+  background: #16213e;
+  padding: 16px;
+  border-radius: 10px;
+  border-left: 4px solid #ffa502;
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.order-header h4 {
+  font-size: 1.1rem;
+}
+
+.order-timer {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.order-timer-track {
+  height: 6px;
+  background: #333;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.order-timer-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.5s linear;
+}
+
+.btn-serve {
+  width: 100%;
+  padding: 8px;
+  background: #e94560;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.btn-serve:hover {
+  background: #d63050;
+}
+
+/* Service Messages */
+.service-message {
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.msg-success {
+  background: rgba(46, 213, 115, 0.15);
+  color: #2ed573;
+}
+
+.msg-fail {
+  background: rgba(255, 71, 87, 0.15);
+  color: #ff4757;
+}
+
+/* Game Over */
+.game-over-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.game-over-card {
+  background: #16213e;
+  padding: 40px;
+  border-radius: 16px;
+  text-align: center;
+  border: 2px solid #ff4757;
+}
+
+.game-over-card h2 {
+  color: #ff4757;
+  font-size: 2rem;
+  margin-bottom: 12px;
+}
+
+.game-over-card p {
+  color: #aaa;
+  margin-bottom: 20px;
+}

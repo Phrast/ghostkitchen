@@ -12,6 +12,7 @@ export default function Navbar() {
       <div className="navbar-links">
         <Link to="/lab">Lab</Link>
         <Link to="/recipes">Recipes</Link>
+        <Link to="/service">Service</Link>
       </div>
       <div className="navbar-right">
         <span className="navbar-user">{user.name}</span>
