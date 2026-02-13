@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export default function OrderCard({ order, onServe }) {
+export default function OrderCard({ order, onServe, stockMap = {} }) {
   const [timeLeft, setTimeLeft] = useState(order.timeLimit);
 
   useEffect(() => {
@@ -19,6 +19,11 @@ export default function OrderCard({ order, onServe }) {
   const progress = (timeLeft / order.timeLimit) * 100;
   const timerColor = timeLeft > 15 ? '#2ed573' : timeLeft > 5 ? '#ffa502' : '#ff4757';
 
+  // Check if we have enough stock for all ingredients
+  const canServe = order.ingredients
+    ? order.ingredients.every(ing => (stockMap[ing.id] || 0) >= 1)
+    : true;
+
   return (
     <div className="order-card">
       <div className="order-header">
@@ -27,14 +32,35 @@ export default function OrderCard({ order, onServe }) {
           {timeLeft}s
         </span>
       </div>
+
+      {order.ingredients && (
+        <div className="order-ingredients">
+          {order.ingredients.map(ing => {
+            const inStock = (stockMap[ing.id] || 0) >= 1;
+            return (
+              <span
+                key={ing.id}
+                className={`order-ing ${inStock ? 'in-stock' : 'out-of-stock'}`}
+              >
+                {ing.emoji} {ing.name}
+              </span>
+            );
+          })}
+        </div>
+      )}
+
       <div className="order-timer-track">
         <div
           className="order-timer-fill"
           style={{ width: `${progress}%`, background: timerColor }}
         />
       </div>
-      <button className="btn-serve" onClick={() => onServe(order.id)}>
-        Serve
+      <button
+        className="btn-serve"
+        onClick={() => onServe(order.id)}
+        disabled={!canServe}
+      >
+        {canServe ? 'Serve' : 'Missing ingredients'}
       </button>
     </div>
   );

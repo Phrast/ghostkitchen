@@ -505,3 +505,261 @@ a {
   color: #aaa;
   margin-bottom: 20px;
 }
+
+/* Treasury Badge */
+.treasury-badge {
+  background: #2ed573;
+  color: #1a1a2e;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.navbar-treasury {
+  background: #2ed573;
+  color: #1a1a2e;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+/* Service Header */
+.service-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.service-header h2 {
+  margin-bottom: 0;
+}
+
+/* Shop Page */
+.shop-page h2 {
+  margin-bottom: 0;
+}
+
+.shop-page h3 {
+  margin: 20px 0 12px;
+  color: #aaa;
+}
+
+.shop-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.shop-item {
+  background: #16213e;
+  padding: 16px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.shop-item-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.shop-item-emoji {
+  font-size: 1.6rem;
+}
+
+.shop-item-name {
+  font-weight: bold;
+  flex: 1;
+}
+
+.shop-item-price {
+  color: #ffa502;
+  font-weight: bold;
+}
+
+.shop-item-stock {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+.shop-item-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.shop-item-actions input {
+  width: 60px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #333;
+  background: #0f3460;
+  color: #eee;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.btn-buy {
+  flex: 1;
+  padding: 8px 14px;
+  background: #2ed573;
+  color: #1a1a2e;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-buy:disabled {
+  background: #555;
+  color: #999;
+  cursor: not-allowed;
+}
+
+/* Stock Display */
+.stock-display {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.stock-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #0f3460;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+.stock-qty {
+  color: #2ed573;
+  font-weight: bold;
+}
+
+/* Dashboard Page */
+.dashboard-page h2 {
+  margin-bottom: 0;
+}
+
+.dashboard-page h3 {
+  margin-bottom: 12px;
+  color: #aaa;
+}
+
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.dashboard-charts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.chart-card {
+  background: #16213e;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.chart-card h3 {
+  margin-bottom: 16px;
+}
+
+.dashboard-section {
+  margin-bottom: 30px;
+}
+
+/* Margin Table */
+.margin-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #16213e;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.margin-table th,
+.margin-table td {
+  padding: 12px 16px;
+  text-align: left;
+}
+
+.margin-table th {
+  background: #0f3460;
+  color: #aaa;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.margin-table td {
+  border-top: 1px solid #333;
+}
+
+.margin-table .positive {
+  color: #2ed573;
+  font-weight: bold;
+}
+
+.margin-table .negative {
+  color: #ff4757;
+  font-weight: bold;
+}
+
+/* Service Stock */
+.service-stock {
+  margin-bottom: 16px;
+}
+
+.service-stock h4 {
+  color: #aaa;
+  margin-bottom: 8px;
+}
+
+/* Order Ingredients */
+.order-ingredients {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.order-ing {
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+}
+
+.order-ing.in-stock {
+  background: rgba(46, 213, 115, 0.15);
+  color: #2ed573;
+}
+
+.order-ing.out-of-stock {
+  background: rgba(255, 71, 87, 0.15);
+  color: #ff4757;
+}
+
+.btn-serve:disabled {
+  background: #555;
+  color: #999;
+  cursor: not-allowed;
+}

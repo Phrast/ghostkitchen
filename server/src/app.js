@@ -5,6 +5,8 @@ const errorHandler = require('./middleware/errorHandler');
 const authRoutes = require('./routes/authRoutes');
 const labRoutes = require('./routes/labRoutes');
 const recipeRoutes = require('./routes/recipeRoutes');
+const shopRoutes = require('./routes/shopRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
 
 const app = express();
 
@@ -15,6 +17,8 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/lab', labRoutes);
 app.use('/api/recipes', recipeRoutes);
+app.use('/api/shop', shopRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 
 // Error handler
 app.use(errorHandler);

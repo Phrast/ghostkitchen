@@ -12,11 +12,13 @@ function randomBetween(min, max) {
 function startOrderLoop(socket, restaurantId) {
   if (activeLoops.has(restaurantId)) return;
 
-  const state = { activeOrders: new Map(), timeout: null };
+  const state = { activeOrders: new Map(), timeout: null, generating: true };
 
   function scheduleNext() {
+    if (!state.generating) return;
     const delay = randomBetween(8000, 15000);
     state.timeout = setTimeout(async () => {
+      if (!state.generating) return;
       const order = await generateOrder(restaurantId);
       if (!order) { scheduleNext(); return; }
 
@@ -24,6 +26,11 @@ function startOrderLoop(socket, restaurantId) {
       const expiryTimeout = setTimeout(async () => {
         state.activeOrders.delete(order.id);
         socket.emit('order:expired', { orderId: order.id });
+
+        // Clean up if no more orders and not generating
+        if (!state.generating && state.activeOrders.size === 0) {
+          activeLoops.delete(restaurantId);
+        }
 
         // Log expired order
         await pool.query(
@@ -52,10 +59,27 @@ function startOrderLoop(socket, restaurantId) {
   activeLoops.set(restaurantId, state);
 }
 
+// Stop generating new orders, but keep active orders alive
+function stopGenerating(restaurantId) {
+  const state = activeLoops.get(restaurantId);
+  if (!state) return;
+
+  state.generating = false;
+  clearTimeout(state.timeout);
+  state.timeout = null;
+
+  // If no active orders, clean up entirely
+  if (state.activeOrders.size === 0) {
+    activeLoops.delete(restaurantId);
+  }
+}
+
+// Full stop: stop generating + cancel all active orders
 function stopOrderLoop(restaurantId) {
   const state = activeLoops.get(restaurantId);
   if (!state) return;
 
+  state.generating = false;
   clearTimeout(state.timeout);
   for (const [, { timeout }] of state.activeOrders) {
     clearTimeout(timeout);
@@ -78,6 +102,22 @@ function removeActiveOrder(restaurantId, orderId) {
     clearTimeout(entry.timeout);
     state.activeOrders.delete(orderId);
   }
+
+  // Clean up if no more orders and not generating
+  if (!state.generating && state.activeOrders.size === 0) {
+    activeLoops.delete(restaurantId);
+  }
 }
 
-module.exports = { startOrderLoop, stopOrderLoop, getActiveOrder, removeActiveOrder };
+function isGenerating(restaurantId) {
+  const state = activeLoops.get(restaurantId);
+  return state ? state.generating : false;
+}
+
+function getAllActiveOrders(restaurantId) {
+  const state = activeLoops.get(restaurantId);
+  if (!state) return [];
+  return Array.from(state.activeOrders.values()).map(entry => entry.order);
+}
+
+module.exports = { startOrderLoop, stopGenerating, stopOrderLoop, getActiveOrder, removeActiveOrder, isGenerating, getAllActiveOrders };

@@ -15,7 +15,7 @@ async function register(req, res, next) {
       [name, email, hashed]
     );
 
-    const restaurant = { id: result.insertId, name, email };
+    const restaurant = { id: result.insertId, name, email, treasury: 500 };
     const token = generateToken(restaurant);
 
     res.status(201).json({ token, restaurant });
@@ -35,7 +35,7 @@ async function login(req, res, next) {
     }
 
     const [rows] = await pool.query(
-      'SELECT id, name, email, password FROM restaurants WHERE email = ?',
+      'SELECT id, name, email, password, treasury FROM restaurants WHERE email = ?',
       [email]
     );
     if (rows.length === 0) {
@@ -49,7 +49,7 @@ async function login(req, res, next) {
     }
 
     const token = generateToken(restaurant);
-    res.json({ token, restaurant: { id: restaurant.id, name: restaurant.name, email: restaurant.email } });
+    res.json({ token, restaurant: { id: restaurant.id, name: restaurant.name, email: restaurant.email, treasury: restaurant.treasury } });
   } catch (err) {
     next(err);
   }
@@ -58,7 +58,7 @@ async function login(req, res, next) {
 async function me(req, res, next) {
   try {
     const [rows] = await pool.query(
-      'SELECT id, name, email FROM restaurants WHERE id = ?',
+      'SELECT id, name, email, treasury FROM restaurants WHERE id = ?',
       [req.restaurantId]
     );
     if (rows.length === 0) {

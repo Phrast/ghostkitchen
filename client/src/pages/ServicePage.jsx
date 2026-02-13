@@ -1,91 +1,43 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useSocket } from '../context/SocketContext';
+import { useEffect } from 'react';
+import { useGame } from '../context/GameContext';
 import OrderQueue from '../components/service/OrderQueue';
 import SatisfactionBar from '../components/service/SatisfactionBar';
+import StockDisplay from '../components/shop/StockDisplay';
 
 export default function ServicePage() {
-  const socket = useSocket();
-  const [running, setRunning] = useState(false);
-  const [orders, setOrders] = useState([]);
-  const [satisfaction, setSatisfaction] = useState(20);
-  const [gameOver, setGameOver] = useState(false);
-  const [message, setMessage] = useState('');
+  const {
+    generating, orders, satisfaction, treasury, stock, stockMap,
+    gameOver, message,
+    startService, stopService, serveOrder, resetGame, refreshStatus,
+  } = useGame();
 
+  // Refresh state when navigating to this page (e.g. after buying stock)
   useEffect(() => {
-    if (!socket) return;
+    refreshStatus();
+  }, [refreshStatus]);
 
-    socket.on('order:new', (order) => {
-      setOrders(prev => [...prev, order]);
-    });
-
-    socket.on('order:expired', ({ orderId }) => {
-      setOrders(prev => prev.filter(o => o.id !== orderId));
-    });
-
-    socket.on('order:result', ({ success, satisfaction: sat, message: msg }) => {
-      setMessage(msg);
-      if (sat !== undefined) setSatisfaction(sat);
-      setTimeout(() => setMessage(''), 3000);
-    });
-
-    socket.on('satisfaction:update', ({ satisfaction: sat }) => {
-      setSatisfaction(sat);
-    });
-
-    socket.on('game:over', () => {
-      setGameOver(true);
-      setRunning(false);
-      setOrders([]);
-    });
-
-    return () => {
-      socket.off('order:new');
-      socket.off('order:expired');
-      socket.off('order:result');
-      socket.off('satisfaction:update');
-      socket.off('game:over');
-    };
-  }, [socket]);
-
-  const handleStart = () => {
-    if (!socket) return;
-    socket.emit('service:start');
-    setRunning(true);
-    setGameOver(false);
-    setOrders([]);
-  };
-
-  const handleStop = () => {
-    if (!socket) return;
-    socket.emit('service:stop');
-    setRunning(false);
-    setOrders([]);
-  };
-
-  const handleServe = useCallback((orderId) => {
-    if (!socket) return;
-    socket.emit('order:served', { orderId });
-    setOrders(prev => prev.filter(o => o.id !== orderId));
-  }, [socket]);
-
-  const handleReset = () => {
-    if (!socket) return;
-    socket.emit('game:reset');
-    setGameOver(false);
-    setSatisfaction(20);
-    setOrders([]);
-  };
+  const hasOrders = orders.length > 0;
 
   return (
     <div className="service-page">
-      <h2>Service</h2>
+      <div className="service-header">
+        <h2>Service</h2>
+        <span className="treasury-badge">{treasury}$</span>
+      </div>
       <SatisfactionBar satisfaction={satisfaction} />
 
-      {!running && !gameOver && (
-        <button className="btn-start" onClick={handleStart}>Start Service</button>
+      {stock.length > 0 && (
+        <div className="service-stock">
+          <h4>Your Stock</h4>
+          <StockDisplay ingredients={stock} />
+        </div>
       )}
-      {running && (
-        <button className="btn-stop" onClick={handleStop}>Stop Service</button>
+
+      {!generating && !gameOver && !hasOrders && (
+        <button className="btn-start" onClick={startService}>Start Service</button>
+      )}
+      {generating && (
+        <button className="btn-stop" onClick={stopService}>Stop Service</button>
       )}
 
       {message && (
@@ -94,14 +46,14 @@ export default function ServicePage() {
         </div>
       )}
 
-      {running && <OrderQueue orders={orders} onServe={handleServe} />}
+      {hasOrders && <OrderQueue orders={orders} onServe={serveOrder} stockMap={stockMap} />}
 
       {gameOver && (
         <div className="game-over-overlay">
           <div className="game-over-card">
             <h2>GAME OVER</h2>
             <p>Your satisfaction dropped below 0!</p>
-            <button className="btn-start" onClick={handleReset}>Try Again</button>
+            <button className="btn-start" onClick={resetGame}>Try Again</button>
           </div>
         </div>
       )}
