@@ -1,7 +1,5 @@
 # GhostKitchen
 
-Jeu de gestion de restaurant en temps réel. Découvrez des recettes dans le lab, achetez des ingrédients au shop, servez les commandes en service et suivez vos performances sur le dashboard.
-
 ## Prérequis
 
 - **Node.js** (v18+)
@@ -11,7 +9,7 @@ Jeu de gestion de restaurant en temps réel. Découvrez des recettes dans le lab
 
 ```bash
 # Cloner le repo
-git clone <url-du-repo>
+git clone https://github.com/Phrast/ghostkitchen.git
 cd ghostkitchen
 
 # Installer les dépendances serveur
