@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>GhostKitchen - Rapport de Projet</title>
+  <style>
+    @page { margin: 1.5cm 2cm; size: A4; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      color: #222;
+      line-height: 1.55;
+      font-size: 11pt;
+      background: #fff;
+    }
+
+    /* COVER */
+    .cover {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      page-break-after: always;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      color: #fff;
+      padding: 3rem;
+    }
+    .cover h1 {
+      font-size: 3.5rem;
+      margin-bottom: 0.3em;
+      letter-spacing: 2px;
+    }
+    .cover .emoji-line { font-size: 2.5rem; margin: 1rem 0; }
+    .cover .subtitle {
+      font-size: 1.3rem;
+      color: #aab;
+      margin-bottom: 2rem;
+      font-style: italic;
+    }
+    .cover .meta {
+      margin-top: 3rem;
+      font-size: 1rem;
+      color: #99a;
+      line-height: 2;
+    }
+
+    /* TOC */
+    .toc { page-break-after: always; padding: 2rem 0; }
+    .toc h2 { font-size: 1.6rem; margin-bottom: 1.5rem; color: #1a1a2e; border-bottom: 3px solid #e94560; padding-bottom: 0.3rem; display: inline-block; }
+    .toc ol { list-style: none; counter-reset: toc; }
+    .toc > ol > li { counter-increment: toc; margin-bottom: 0.4rem; font-size: 1.05rem; }
+    .toc > ol > li::before { content: counter(toc) ". "; font-weight: bold; color: #e94560; }
+    .toc > ol > li > ol { margin-left: 1.5rem; margin-top: 0.2rem; }
+    .toc > ol > li > ol > li { font-size: 0.95rem; color: #444; margin-bottom: 0.15rem; }
+    .toc a { text-decoration: none; color: inherit; }
+    .toc a:hover { color: #e94560; }
+
+    /* HEADINGS */
+    h2 {
+      font-size: 1.5rem;
+      color: #1a1a2e;
+      margin: 2rem 0 0.8rem;
+      border-bottom: 3px solid #e94560;
+      padding-bottom: 0.3rem;
+      page-break-after: avoid;
+    }
+    h3 {
+      font-size: 1.15rem;
+      color: #0f3460;
+      margin: 1.4rem 0 0.5rem;
+      page-break-after: avoid;
+    }
+    h4 {
+      font-size: 1rem;
+      color: #333;
+      margin: 1rem 0 0.4rem;
+    }
+
+    /* CONTENT */
+    p { margin-bottom: 0.6em; text-align: justify; }
+    ul, ol { margin: 0.4em 0 0.8em 1.5em; }
+    li { margin-bottom: 0.25em; }
+
+    /* CODE */
+    code {
+      background: #f0f0f5;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 0.9em;
+      font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace;
+    }
+    pre {
+      background: #1e1e2e;
+      color: #cdd6f4;
+      padding: 0.8rem 1rem;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-size: 0.82em;
+      line-height: 1.5;
+      margin: 0.5em 0 1em;
+      page-break-inside: avoid;
+      font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace;
+    }
+    pre code { background: none; padding: 0; color: inherit; }
+
+    /* TABLES */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.6em 0 1.2em;
+      font-size: 0.92em;
+      page-break-inside: avoid;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 6px 10px;
+      text-align: left;
+    }
+    th {
+      background: #1a1a2e;
+      color: #fff;
+      font-weight: 600;
+    }
+    tr:nth-child(even) { background: #f8f8fc; }
+
+    /* SPECIAL BOXES */
+    .box {
+      border-left: 4px solid #e94560;
+      background: #fdf2f4;
+      padding: 0.8rem 1rem;
+      margin: 0.8em 0;
+      border-radius: 0 6px 6px 0;
+      page-break-inside: avoid;
+    }
+    .box-blue {
+      border-left-color: #0f3460;
+      background: #eef2fa;
+    }
+    .box-green {
+      border-left-color: #2ed573;
+      background: #eefaf2;
+    }
+    .box strong { color: #1a1a2e; }
+
+    /* TREE */
+    .tree {
+      background: #f5f5fa;
+      padding: 0.8rem 1rem;
+      border-radius: 6px;
+      font-family: 'Cascadia Code', Consolas, monospace;
+      font-size: 0.82em;
+      line-height: 1.6;
+      margin: 0.5em 0 1em;
+      page-break-inside: avoid;
+    }
+
+    /* DIAGRAM */
+    .diagram {
+      background: #f8f8fc;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 1.2rem;
+      text-align: center;
+      margin: 1em 0;
+      page-break-inside: avoid;
+      font-family: 'Cascadia Code', Consolas, monospace;
+      font-size: 0.85em;
+      line-height: 1.7;
+    }
+
+    .section { page-break-before: always; }
+    .section:first-of-type { page-break-before: avoid; }
+
+    .badge {
+      display: inline-block;
+      background: #e94560;
+      color: #fff;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.8em;
+      font-weight: 600;
+      margin-right: 4px;
+    }
+    .badge-blue { background: #0f3460; }
+    .badge-green { background: #2ed573; color: #1a1a2e; }
+
+    @media print {
+      body { font-size: 10pt; }
+      .cover { height: 100vh; }
+      pre { font-size: 0.78em; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ==================== PAGE DE COUVERTURE ==================== -->
+<div class="cover">
+  <div class="emoji-line">🍕 🧪 📦 🛎️ 📊</div>
+  <h1>GhostKitchen</h1>
+  <p class="subtitle">Jeu de gestion de restaurant en temps reel</p>
+  <p style="font-size:1rem; max-width:600px; color:#ccd;">
+    Redecouvertes de recettes, gestion de stocks, service sous pression et analyse de performance
+  </p>
+  <div class="meta">
+    <strong>Stack :</strong> React &bull; Node.js &bull; MySQL &bull; Socket.io<br>
+    Projet Fullstack &mdash; 2025
+  </div>
+</div>
+
+<!-- ==================== TABLE DES MATIERES ==================== -->
+<div class="toc">
+  <h2>Table des matieres</h2>
+  <ol>
+    <li><a href="#contexte">Contexte et Consignes</a></li>
+    <li><a href="#stack">Stack Technique et Justification</a>
+      <ol>
+        <li>Frontend : React + Vite</li>
+        <li>Backend : Node.js + Express</li>
+        <li>Base de donnees : MySQL</li>
+        <li>Temps reel : Socket.io</li>
+        <li>Autres librairies</li>
+      </ol>
+    </li>
+    <li><a href="#archi">Architecture Globale</a>
+      <ol>
+        <li>Architecture client-serveur</li>
+        <li>Arborescence des fichiers</li>
+        <li>Flux de donnees</li>
+      </ol>
+    </li>
+    <li><a href="#bdd">Base de Donnees</a>
+      <ol>
+        <li>Schema relationnel</li>
+        <li>Migrations progressives</li>
+        <li>Seed (donnees initiales)</li>
+      </ol>
+    </li>
+    <li><a href="#backend">Backend en detail</a>
+      <ol>
+        <li>Configuration et entrypoint</li>
+        <li>Authentification (JWT + bcrypt)</li>
+        <li>API REST (Controllers / Routes)</li>
+        <li>Services metier</li>
+        <li>Systeme temps reel (Socket.io)</li>
+        <li>Boucle de commandes (orderLoop)</li>
+      </ol>
+    </li>
+    <li><a href="#frontend">Frontend en detail</a>
+      <ol>
+        <li>Architecture React (Context API)</li>
+        <li>Pages et composants</li>
+        <li>Couche API (Axios)</li>
+        <li>Drag and Drop (React DnD)</li>
+        <li>Graphiques (Chart.js)</li>
+      </ol>
+    </li>
+    <li><a href="#gameplay">Gameplay et Mecaniques</a>
+      <ol>
+        <li>Le Laboratoire</li>
+        <li>La Boutique</li>
+        <li>Le Service</li>
+        <li>Le Dashboard</li>
+      </ol>
+    </li>
+    <li><a href="#defis">Defis Techniques Rencontres</a></li>
+    <li><a href="#apprentissages">Apprentissages</a></li>
+  </ol>
+</div>
+
+<!-- ==================== 1. CONTEXTE ==================== -->
+<div class="section" id="contexte">
+  <h2>1. Contexte et Consignes</h2>
+
+  <div class="box">
+    <strong>Scenario :</strong> Vous reprenez un restaurant legendaire &laquo; La Tour d'Emeraude &raquo;, mais le chef precedent est parti avec le livre de recettes.
+    Vos placards et frigos sont vides. Vous avez une heure avant l'ouverture, les clients vont affluer et commander des plats precis, mais vous ne connaissez meme pas les ingredients.
+  </div>
+
+  <p>Le projet consiste a developper une <strong>Ghost Kitchen</strong> sous pression ou le joueur doit :</p>
+  <ol>
+    <li><strong>Acheter ses stocks</strong> intelligemment au shop</li>
+    <li><strong>Redecouvrir les recettes</strong> en experimentant au laboratoire</li>
+    <li><strong>Servir les clients en temps reel</strong> pour eviter la faillite</li>
+  </ol>
+
+  <h3>Cahier des charges fonctionnel</h3>
+
+  <table>
+    <tr><th>Module</th><th>Fonctionnalites requises</th></tr>
+    <tr>
+      <td><strong>Authentification</strong></td>
+      <td>Connexion / Inscription, partie persistee en base de donnees</td>
+    </tr>
+    <tr>
+      <td><strong>Laboratoire</strong></td>
+      <td>Marketplace d'ingredients, combinaison par drag &amp; drop, succes = recette debloquee, echec = ingredients detruits</td>
+    </tr>
+    <tr>
+      <td><strong>Service</strong></td>
+      <td>Flux de commandes via WebSockets, service si recette connue ET stock suffisant, economie (achat = depense, service = gain), game over si tresorerie &lt; 0</td>
+    </tr>
+  </table>
+
+  <p><strong>Stack imposee :</strong> React, Node.js, SQL (PostgreSQL/MySQL) ou MongoDB, Socket.io.</p>
+</div>
+
+<!-- ==================== 2. STACK TECHNIQUE ==================== -->
+<div class="section" id="stack">
+  <h2>2. Stack Technique et Justification</h2>
+
+  <h3>2.1 Frontend : React 19 + Vite</h3>
+  <p><strong>React</strong> a ete choisi car il fait partie de la stack imposee. Nous utilisons la version 19 avec <strong>Vite</strong> comme bundler pour des raisons de performance : Vite offre un hot-module replacement quasi-instantane et un demarrage de dev serveur bien plus rapide que Webpack/CRA grace a son architecture basee sur ESModules natifs.</p>
+  <p><strong>React Router v7</strong> gere la navigation SPA (Single Page Application) avec des routes protegees pour les pages authentifiees.</p>
+
+  <h3>2.2 Backend : Node.js + Express 5</h3>
+  <p><strong>Node.js</strong> est ideal pour notre cas d'usage : un serveur a forte composante I/O (base de donnees, WebSockets) ou le modele event-driven de Node excelle. <strong>Express 5</strong> fournit un framework minimal et flexible pour structurer nos API REST avec un systeme de middleware (authentification, gestion d'erreurs).</p>
+
+  <h3>2.3 Base de donnees : MySQL</h3>
+  <p>Nous avons opte pour <strong>MySQL</strong> (via <code>mysql2/promise</code>) plutot que MongoDB car notre modele de donnees est fortement relationnel :</p>
+  <ul>
+    <li>Relations <em>many-to-many</em> entre recettes et ingredients (table de liaison <code>recipe_ingredients</code>)</li>
+    <li>Relations <em>one-to-many</em> entre restaurants et commandes/transactions/stocks</li>
+    <li><strong>Transactions ACID</strong> indispensables pour les operations economiques (achat/vente) afin de garantir la coherence des donnees</li>
+    <li>Le driver <code>mysql2/promise</code> permet l'utilisation de <code>async/await</code> pour un code lisible et maintenable</li>
+  </ul>
+
+  <h3>2.4 Temps reel : Socket.io</h3>
+  <p><strong>Socket.io</strong> gere la communication bidirectionnelle en temps reel entre le serveur et le client. C'est le coeur du module Service : les commandes arrivent en flux continu, les timers expirent, et l'etat du jeu (satisfaction, tresorerie, stock) se synchronise instantanement.</p>
+  <p>Socket.io a ete prefere aux WebSockets purs car il offre : la reconnexion automatique, le fallback HTTP long-polling, et une API evenementielle intuitive (<code>socket.emit</code> / <code>socket.on</code>).</p>
+
+  <h3>2.5 Autres librairies</h3>
+  <table>
+    <tr><th>Librairie</th><th>Role</th><th>Justification</th></tr>
+    <tr><td><code>bcrypt</code></td><td>Hashage des mots de passe</td><td>Algorithme adaptatif resistant aux attaques brute-force</td></tr>
+    <tr><td><code>jsonwebtoken</code></td><td>Tokens d'authentification</td><td>Stateless, scalable, expire en 24h</td></tr>
+    <tr><td><code>react-dnd</code></td><td>Drag and Drop</td><td>Experience utilisateur naturelle pour combiner les ingredients au lab</td></tr>
+    <tr><td><code>chart.js</code></td><td>Graphiques</td><td>Charts interactifs et responsives pour le dashboard</td></tr>
+    <tr><td><code>axios</code></td><td>Client HTTP</td><td>Intercepteurs pour injecter le token JWT automatiquement</td></tr>
+    <tr><td><code>cors</code></td><td>Cross-Origin</td><td>Autoriser les requetes du frontend (port 5173) vers le backend (port 5000)</td></tr>
+    <tr><td><code>dotenv</code></td><td>Variables d'environnement</td><td>Separation config/code, securite des credentials</td></tr>
+  </table>
+</div>
+
+<!-- ==================== 3. ARCHITECTURE ==================== -->
+<div class="section" id="archi">
+  <h2>3. Architecture Globale</h2>
+
+  <h3>3.1 Architecture client-serveur</h3>
+
+  <div class="diagram">
+    <strong>CLIENT (React - port 5173)</strong><br>
+    &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br>
+    &nbsp;&nbsp;HTTP/REST&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WebSocket<br>
+    &nbsp;&nbsp;(Axios)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Socket.io)<br>
+    &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br>
+    <strong>SERVEUR (Express - port 5000)</strong><br>
+    &nbsp;&nbsp;&nbsp;|<br>
+    &nbsp;&nbsp;mysql2/promise<br>
+    &nbsp;&nbsp;&nbsp;|<br>
+    <strong>BASE DE DONNEES (MySQL)</strong>
+  </div>
+
+  <p>L'application suit une architecture <strong>client-serveur classique</strong> avec deux canaux de communication :</p>
+  <ul>
+    <li><strong>API REST</strong> (via Axios) pour les operations CRUD : authentification, lab, shop, dashboard, recettes</li>
+    <li><strong>WebSocket</strong> (via Socket.io) pour le temps reel : flux de commandes, mises a jour de satisfaction/tresorerie/stock, game over</li>
+  </ul>
+
+  <div class="box-blue box">
+    <strong>Pourquoi deux canaux ?</strong> L'API REST est adaptee aux operations ponctuelles (acheter un ingredient, recuperer les recettes). Le WebSocket est necessaire pour le flux continu de commandes et les mises a jour instantanees du jeu sans polling.
+  </div>
+
+  <h3>3.2 Arborescence des fichiers</h3>
+
+  <div class="tree">
+ghostkitchen/<br>
+|-- <strong>server/</strong><br>
+|&nbsp;&nbsp;&nbsp;|-- src/<br>
+|&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;|-- <strong>config/</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Configuration (env, db pool)<br>
+|&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;|-- <strong>controllers/</strong>&nbsp;&nbsp;&nbsp;&nbsp;# Logique des routes (auth, lab, shop, dashboard)<br>
+|&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;|-- <strong>services/</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Logique metier (economie, satisfaction, matching)<br>
+|&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;|-- <strong>routes/</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Definition des endpoints REST<br>
+|&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;|-- <strong>middleware/</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Auth JWT, gestion d'erreurs<br>
+|&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;|-- <strong>socket/</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Gestion Socket.io (handler + orderLoop)<br>
+|&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;|-- <strong>db/</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Migrations SQL + seed<br>
+|&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;|-- <strong>utils/</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Helpers (generateToken, hashPassword)<br>
+|&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;|-- app.js&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Setup Express<br>
+|&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;|-- index.js&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Entrypoint serveur<br>
+|&nbsp;&nbsp;&nbsp;|-- .env<br>
+|&nbsp;&nbsp;&nbsp;|-- package.json<br>
+|<br>
+|-- <strong>client/</strong><br>
+|&nbsp;&nbsp;&nbsp;|-- src/<br>
+|&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;|-- <strong>api/</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Couche HTTP (axios configuree)<br>
+|&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;|-- <strong>context/</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Etats globaux (Auth, Socket, Game)<br>
+|&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;|-- <strong>pages/</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Pages (Login, Lab, Service, Shop, Dashboard)<br>
+|&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;|-- <strong>components/</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Composants reutilisables par module<br>
+|&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;|-- <strong>styles/</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# CSS global<br>
+|&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;|-- App.jsx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Router + Providers<br>
+|&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;|-- main.jsx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Point d'entree React<br>
+|&nbsp;&nbsp;&nbsp;|-- vite.config.js<br>
+|&nbsp;&nbsp;&nbsp;|-- package.json<br>
+  </div>
+
+  <h3>3.3 Organisation en couches (Backend)</h3>
+  <p>Le backend suit le pattern <strong>Controller &rarr; Service &rarr; Database</strong> :</p>
+  <ul>
+    <li><strong>Routes</strong> : definissent les endpoints et appliquent les middlewares</li>
+    <li><strong>Controllers</strong> : recoivent les requetes, valident les parametres, appellent les services, renvoient les reponses</li>
+    <li><strong>Services</strong> : contiennent la logique metier pure (transactions atomiques, calculs de marge, matching de recettes)</li>
+    <li><strong>Config/DB</strong> : pool de connexions MySQL, variables d'environnement</li>
+  </ul>
+  <p>Cette separation permet de <strong>tester et maintenir</strong> chaque couche independamment. Un changement de base de donnees n'impacterait que la couche service/config.</p>
+</div>
+
+<!-- ==================== 4. BASE DE DONNEES ==================== -->
+<div class="section" id="bdd">
+  <h2>4. Base de Donnees</h2>
+
+  <h3>4.1 Schema relationnel</h3>
+
+  <table>
+    <tr><th>Table</th><th>Colonnes principales</th><th>Relations</th></tr>
+    <tr>
+      <td><code>restaurants</code></td>
+      <td>id, name, email, password, treasury (500), satisfaction (20)</td>
+      <td>1:N vers orders, stock, transactions, discovered_recipes</td>
+    </tr>
+    <tr>
+      <td><code>ingredients</code></td>
+      <td>id, name, emoji, buy_price</td>
+      <td>N:M vers recipes (via recipe_ingredients)</td>
+    </tr>
+    <tr>
+      <td><code>recipes</code></td>
+      <td>id, name, description, sell_price</td>
+      <td>N:M vers ingredients</td>
+    </tr>
+    <tr>
+      <td><code>recipe_ingredients</code></td>
+      <td>recipe_id, ingredient_id</td>
+      <td>Table de liaison (cle composite)</td>
+    </tr>
+    <tr>
+      <td><code>discovered_recipes</code></td>
+      <td>restaurant_id, recipe_id, discovered_at</td>
+      <td>Quelles recettes le joueur a decouvertes</td>
+    </tr>
+    <tr>
+      <td><code>stock</code></td>
+      <td>restaurant_id, ingredient_id, quantity</td>
+      <td>Inventaire du joueur (UNIQUE restaurant+ingredient)</td>
+    </tr>
+    <tr>
+      <td><code>orders</code></td>
+      <td>restaurant_id, recipe_id, status, created_at, resolved_at</td>
+      <td>Historique des commandes (served/expired)</td>
+    </tr>
+    <tr>
+      <td><code>transactions</code></td>
+      <td>restaurant_id, type, amount, description, recipe_id</td>
+      <td>Journal financier (purchase/sale)</td>
+    </tr>
+  </table>
+
+  <h3>4.2 Migrations progressives</h3>
+  <p>La base de donnees evolue par <strong>paliers</strong>, chaque migration ajoutant les tables et colonnes necessaires :</p>
+
+  <table>
+    <tr><th>Migration</th><th>Palier</th><th>Ajouts</th></tr>
+    <tr>
+      <td><code>001_palier1.sql</code></td>
+      <td>Auth + Lab</td>
+      <td>restaurants, ingredients, recipes, recipe_ingredients, discovered_recipes</td>
+    </tr>
+    <tr>
+      <td><code>002_palier2.sql</code></td>
+      <td>Service</td>
+      <td>colonne satisfaction, table orders</td>
+    </tr>
+    <tr>
+      <td><code>003_palier3.sql</code></td>
+      <td>Economie</td>
+      <td>colonne treasury, colonne buy_price, tables stock et transactions</td>
+    </tr>
+  </table>
+
+  <div class="box-green box">
+    <strong>Approche incrementale :</strong> Cette strategie de migrations progressives permet de developper le projet palier par palier sans casser l'existant. Chaque fichier SQL est idempotent (<code>CREATE TABLE IF NOT EXISTS</code>, <code>ALTER TABLE ... ADD COLUMN IF NOT EXISTS</code>).
+  </div>
+
+  <h3>4.3 Donnees initiales (Seed)</h3>
+  <p>Le script <code>seed.js</code> insere <strong>12 ingredients</strong> et <strong>8 recettes</strong> :</p>
+
+  <table>
+    <tr><th>Recette</th><th>Ingredients</th><th>Prix de vente</th></tr>
+    <tr><td>Pizza</td><td>Dough + Tomato + Cheese</td><td>15$</td></tr>
+    <tr><td>Sushi</td><td>Rice + Fish</td><td>20$</td></tr>
+    <tr><td>Omelette</td><td>Egg + Butter</td><td>8$</td></tr>
+    <tr><td>Cake</td><td>Flour + Sugar + Butter + Egg</td><td>12$</td></tr>
+    <tr><td>Salad</td><td>Lettuce + Tomato + Chicken</td><td>10$</td></tr>
+    <tr><td>Pasta</td><td>Flour + Tomato + Cheese</td><td>13$</td></tr>
+    <tr><td>Pancake</td><td>Flour + Egg + Butter + Sugar</td><td>9$</td></tr>
+    <tr><td>Chocolate Cake</td><td>Flour + Sugar + Butter + Egg + Chocolate</td><td>18$</td></tr>
+  </table>
+
+  <p>Les prix d'achat des ingredients varient de <strong>2$ a 7$</strong>, creant des marges differentes selon les recettes. Le joueur demarre avec <strong>500$ de tresorerie</strong>.</p>
+</div>
+
+<!-- ==================== 5. BACKEND ==================== -->
+<div class="section" id="backend">
+  <h2>5. Backend en detail</h2>
+
+  <h3>5.1 Configuration et Entrypoint</h3>
+  <p>Le serveur demarre dans <code>index.js</code> : il cree un serveur HTTP, attache Socket.io (avec CORS pour le port 5173 du client), et ecoute sur le port 5000.</p>
+  <pre><code>const server = http.createServer(app);
+const io = new Server(server, { cors: { origin: 'http://localhost:5173' } });
+setupSocket(io);
+server.listen(PORT);</code></pre>
+  <p>Le fichier <code>app.js</code> configure Express avec le middleware CORS, le parsing JSON, et monte les 5 groupes de routes sous le prefixe <code>/api</code>.</p>
+
+  <h3>5.2 Authentification (JWT + bcrypt)</h3>
+  <p>Le systeme d'authentification repose sur deux mecanismes complementaires :</p>
+  <ul>
+    <li><strong>bcrypt</strong> (10 salt rounds) : hashage des mots de passe en base. Jamais de mot de passe en clair.</li>
+    <li><strong>JWT</strong> (expire en 24h) : token signe contenant l'id et l'email du restaurant, transmis dans le header <code>Authorization: Bearer &lt;token&gt;</code></li>
+  </ul>
+  <p>Le <strong>middleware authMiddleware</strong> protege toutes les routes privees : il extrait le token, le verifie avec <code>jwt.verify()</code>, et injecte <code>req.restaurantId</code> pour les controllers suivants.</p>
+  <p>Le meme mecanisme est utilise cote <strong>Socket.io</strong> : le token est passe dans <code>socket.handshake.auth.token</code> et verifie dans un middleware <code>io.use()</code>.</p>
+
+  <h3>5.3 API REST</h3>
+
+  <table>
+    <tr><th>Methode</th><th>Endpoint</th><th>Description</th></tr>
+    <tr><td>POST</td><td><code>/api/auth/register</code></td><td>Inscription (name, email, password)</td></tr>
+    <tr><td>POST</td><td><code>/api/auth/login</code></td><td>Connexion (email, password)</td></tr>
+    <tr><td>GET</td><td><code>/api/auth/me</code></td><td>Profil du joueur connecte</td></tr>
+    <tr><td>GET</td><td><code>/api/lab/ingredients</code></td><td>Liste des ingredients disponibles</td></tr>
+    <tr><td>POST</td><td><code>/api/lab/combine</code></td><td>Tester une combinaison d'ingredients</td></tr>
+    <tr><td>GET</td><td><code>/api/recipes</code></td><td>Recettes decouvertes avec leurs ingredients</td></tr>
+    <tr><td>GET</td><td><code>/api/shop/ingredients</code></td><td>Ingredients avec prix et stock actuel</td></tr>
+    <tr><td>POST</td><td><code>/api/shop/buy</code></td><td>Acheter des ingredients</td></tr>
+    <tr><td>GET</td><td><code>/api/dashboard/stats</code></td><td>Transactions et statistiques financieres</td></tr>
+    <tr><td>GET</td><td><code>/api/dashboard/margins</code></td><td>Marges par recette</td></tr>
+  </table>
+
+  <h3>5.4 Services metier</h3>
+
+  <h4>EconomyService - Transactions atomiques</h4>
+  <p>Le coeur du systeme economique utilise des <strong>transactions MySQL</strong> pour garantir la coherence :</p>
+  <pre><code>// buyIngredient - Transaction atomique
+const conn = await pool.getConnection();
+await conn.beginTransaction();
+try {
+  // 1. Verifier la tresorerie (SELECT FOR UPDATE = verrou)
+  // 2. Decrementer la tresorerie
+  // 3. Upsert le stock (INSERT ON DUPLICATE KEY UPDATE)
+  // 4. Logger la transaction
+  await conn.commit();
+} catch (err) {
+  await conn.rollback();
+  throw err;
+}</code></pre>
+
+  <div class="box-blue box">
+    <strong>Pourquoi des transactions ?</strong> Sans transaction, deux achats simultanes pourraient depasser le budget du joueur. Le <code>SELECT FOR UPDATE</code> verrouille la ligne restaurant pendant l'operation, garantissant l'atomicite.
+  </div>
+
+  <h4>SatisfactionService</h4>
+  <p>Gere le score de satisfaction : +1 par commande servie, -10 par commande expiree. Game over si &lt; 0. Demarre a 20.</p>
+
+  <h4>RecipeMatchingService</h4>
+  <p>Compare la combinaison d'ingredients du joueur avec les recettes en base via un <code>GROUP_CONCAT</code> trie. Si les IDs correspondent exactement, la recette est decouverte.</p>
+
+  <h4>OrderGeneratorService</h4>
+  <p>Genere des commandes aleatoires parmi les recettes decouvertes (<code>ORDER BY RAND() LIMIT 1</code>). Chaque commande inclut le nom de la recette, son prix, et la liste des ingredients necessaires.</p>
+
+  <h3>5.5 Systeme temps reel (Socket.io)</h3>
+
+  <p>Le fichier <code>socketHandler.js</code> gere tous les evenements WebSocket :</p>
+
+  <table>
+    <tr><th>Evenement</th><th>Direction</th><th>Description</th></tr>
+    <tr><td><code>service:status</code></td><td>Client &rarr; Serveur</td><td>Demande l'etat complet du jeu</td></tr>
+    <tr><td><code>service:start</code></td><td>Client &rarr; Serveur</td><td>Demarre la generation de commandes</td></tr>
+    <tr><td><code>service:stop</code></td><td>Client &rarr; Serveur</td><td>Arrete les nouvelles commandes (garde les actives)</td></tr>
+    <tr><td><code>order:served</code></td><td>Client &rarr; Serveur</td><td>Le joueur sert une commande</td></tr>
+    <tr><td><code>game:reset</code></td><td>Client &rarr; Serveur</td><td>Reinitialise la partie</td></tr>
+    <tr><td><code>order:new</code></td><td>Serveur &rarr; Client</td><td>Nouvelle commande recue</td></tr>
+    <tr><td><code>order:expired</code></td><td>Serveur &rarr; Client</td><td>Commande expiree (timer de 30s ecoule)</td></tr>
+    <tr><td><code>order:result</code></td><td>Serveur &rarr; Client</td><td>Resultat du service (succes/echec + message)</td></tr>
+    <tr><td><code>satisfaction:update</code></td><td>Serveur &rarr; Client</td><td>Mise a jour du score</td></tr>
+    <tr><td><code>treasury:update</code></td><td>Serveur &rarr; Client</td><td>Mise a jour de la tresorerie</td></tr>
+    <tr><td><code>stock:update</code></td><td>Serveur &rarr; Client</td><td>Mise a jour du stock</td></tr>
+    <tr><td><code>game:over</code></td><td>Serveur &rarr; Client</td><td>Satisfaction tombee sous 0</td></tr>
+  </table>
+
+  <h3>5.6 Boucle de commandes (orderLoop)</h3>
+  <p>Le fichier <code>orderLoop.js</code> gere une <strong>Map en memoire</strong> par restaurant avec :</p>
+  <ul>
+    <li>Un flag <code>generating</code> : indique si de nouvelles commandes sont generees</li>
+    <li>Une Map <code>activeOrders</code> : commandes en cours avec leurs timers d'expiration</li>
+    <li>Un <code>timeout</code> pour planifier la prochaine commande (intervalle aleatoire 8-15s)</li>
+  </ul>
+
+  <pre><code>// Chaque commande a un timer de 30 secondes
+orderTimer = setTimeout(async () => {
+  // Commande expiree !
+  socket.emit('order:expired', { orderId });
+  const newSat = await decrement(restaurantId); // -10 satisfaction
+  if (isGameOver(newSat)) {
+    socket.emit('game:over');
+    stopOrderLoop(restaurantId);
+  }
+}, order.timeLimit * 1000);</code></pre>
+
+  <div class="box box-blue">
+    <strong>stopGenerating vs stopOrderLoop :</strong> Quand le joueur arrete le service, on appelle <code>stopGenerating()</code> qui n'arrete que la generation de nouvelles commandes. Les commandes actives restent et doivent etre servies ou expirent naturellement. <code>stopOrderLoop()</code> est reserve au game over et a la deconnexion.
+  </div>
+</div>
+
+<!-- ==================== 6. FRONTEND ==================== -->
+<div class="section" id="frontend">
+  <h2>6. Frontend en detail</h2>
+
+  <h3>6.1 Architecture React (Context API)</h3>
+  <p>L'etat global est gere par <strong>3 contextes React</strong> imbriques :</p>
+
+  <div class="diagram">
+    <strong>BrowserRouter</strong><br>
+    &nbsp;&nbsp;&#8627; <strong>AuthProvider</strong> (user, login, register, logout)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&#8627; <strong>SocketProvider</strong> (connexion Socket.io liee au user)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#8627; <strong>GameProvider</strong> (orders, satisfaction, treasury, stock...)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#8627; <strong>DndProvider</strong> (drag &amp; drop pour le lab)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#8627; Navbar + Routes
+  </div>
+
+  <ul>
+    <li><strong>AuthContext</strong> : gere l'authentification (token dans localStorage, validation au chargement via <code>/api/auth/me</code>)</li>
+    <li><strong>SocketContext</strong> : cree la connexion Socket.io quand le user est connecte, la detruit au logout</li>
+    <li><strong>GameContext</strong> : ecoute tous les evenements socket au niveau global pour persister l'etat du service meme quand on change de page. Expose les actions (<code>startService</code>, <code>serveOrder</code>, etc.) et les donnees (orders, treasury, stock...)</li>
+  </ul>
+
+  <div class="box-green box">
+    <strong>Pourquoi GameContext au niveau global ?</strong> Initialement, l'etat du service etait local a la page Service. Probleme : en naviguant vers le Shop pour acheter des ingredients, puis en revenant, tout l'etat disparaissait. En remontant l'etat dans un Context global, le jeu continue en arriere-plan quelle que soit la page affichee.
+  </div>
+
+  <h3>6.2 Pages et Composants</h3>
+
+  <table>
+    <tr><th>Page</th><th>Composants</th><th>Fonctionnalite</th></tr>
+    <tr>
+      <td><code>LoginPage</code></td>
+      <td>Formulaire email/password</td>
+      <td>Connexion, redirection vers /lab</td>
+    </tr>
+    <tr>
+      <td><code>RegisterPage</code></td>
+      <td>Formulaire name/email/password</td>
+      <td>Inscription, redirection vers /lab</td>
+    </tr>
+    <tr>
+      <td><code>LabPage</code></td>
+      <td>IngredientCard, CombineZone, LabResult</td>
+      <td>Drag &amp; drop d'ingredients pour decouvrir des recettes</td>
+    </tr>
+    <tr>
+      <td><code>RecipeBookPage</code></td>
+      <td>RecipeBook, RecipeCard</td>
+      <td>Livre des recettes decouvertes avec ingredients</td>
+    </tr>
+    <tr>
+      <td><code>ShopPage</code></td>
+      <td>ShopItem, StockDisplay</td>
+      <td>Achat d'ingredients, visualisation du stock</td>
+    </tr>
+    <tr>
+      <td><code>ServicePage</code></td>
+      <td>OrderQueue, OrderCard, SatisfactionBar, StockDisplay</td>
+      <td>Service en temps reel, gestion des commandes</td>
+    </tr>
+    <tr>
+      <td><code>DashboardPage</code></td>
+      <td>TreasuryChart, ExpenseBreakdown, MarginTable</td>
+      <td>Analyse financiere et performance</td>
+    </tr>
+  </table>
+
+  <h3>6.3 Couche API (Axios)</h3>
+  <p>Un fichier <code>axios.js</code> cree une instance Axios pre-configuree avec :</p>
+  <ul>
+    <li><code>baseURL: 'http://localhost:5000/api'</code></li>
+    <li>Un <strong>intercepteur de requete</strong> qui injecte automatiquement le header <code>Authorization: Bearer &lt;token&gt;</code> depuis le localStorage</li>
+  </ul>
+  <p>Chaque module (auth, lab, shop, dashboard, recipes) exporte des fonctions simples qui appellent cette instance.</p>
+
+  <h3>6.4 Drag and Drop (React DnD)</h3>
+  <p>Le laboratoire utilise <strong>react-dnd</strong> avec le backend HTML5 :</p>
+  <ul>
+    <li><code>IngredientCard</code> : composant draggable (<code>useDrag</code>) qui envoie l'id de l'ingredient</li>
+    <li><code>CombineZone</code> : composant droppable (<code>useDrop</code>) qui collecte les ingredients deposes et permet de lancer la combinaison</li>
+  </ul>
+
+  <h3>6.5 Graphiques (Chart.js)</h3>
+  <p>Le dashboard utilise <strong>chart.js</strong> via <code>react-chartjs-2</code> pour afficher :</p>
+  <ul>
+    <li><strong>TreasuryChart</strong> : graphique en barres groupees (Sales/Purchases/Profit par jour) avec dates en format francais</li>
+    <li><strong>ExpenseBreakdown</strong> : diagramme en donut montrant la repartition Sales vs Purchases</li>
+    <li><strong>MarginTable</strong> : tableau avec marge, cout des ingredients, fois vendu et profit total par recette</li>
+  </ul>
+</div>
+
+<!-- ==================== 7. GAMEPLAY ==================== -->
+<div class="section" id="gameplay">
+  <h2>7. Gameplay et Mecaniques</h2>
+
+  <h3>7.1 Le Laboratoire</h3>
+  <p>Le joueur voit une grille de 12 ingredients avec emojis. Il <strong>drag &amp; drop</strong> les ingredients dans la zone de combinaison. En cliquant "Combine!", le serveur compare la combinaison triee aux recettes en base. Si match exact : recette debloquee. Sinon : echec.</p>
+
+  <h3>7.2 La Boutique (Shop)</h3>
+  <p>Le joueur achete des ingredients avec sa tresorerie. Chaque ingredient a un prix d'achat (2$ a 7$). L'achat est une <strong>transaction atomique</strong> : verification du solde, decrementation, mise a jour du stock, journalisation. Le joueur voit son stock actuel et peut choisir la quantite.</p>
+
+  <h3>7.3 Le Service</h3>
+  <p>C'est le coeur du jeu en temps reel :</p>
+  <ol>
+    <li>Le joueur clique <strong>"Start Service"</strong></li>
+    <li>Des commandes arrivent toutes les 8 a 15 secondes via WebSocket</li>
+    <li>Chaque commande affiche : nom du plat, timer de 30s, ingredients necessaires</li>
+    <li>Les ingredients sont colores : <span style="color:#2ed573;font-weight:bold">vert</span> (en stock) ou <span style="color:#ff4757;font-weight:bold">rouge</span> (manquant)</li>
+    <li>Le joueur clique <strong>"Serve"</strong> si il a tout le necessaire</li>
+    <li>Succes : +prix de vente en tresorerie, +1 satisfaction</li>
+    <li>Expiration (timer a 0) : -10 satisfaction</li>
+    <li>Game Over si satisfaction &lt; 0</li>
+  </ol>
+
+  <div class="box">
+    <strong>Equilibre du jeu :</strong> Satisfaction initiale = 20, penalite d'expiration = -10, bonus de service = +1. Le joueur peut donc se permettre environ 2 commandes ratees avant le game over, ce qui cree une vraie pression.
+  </div>
+
+  <h3>7.4 Le Dashboard</h3>
+  <p>Le joueur analyse sa performance avec :</p>
+  <ul>
+    <li><strong>Graphique de tresorerie</strong> : evolution des ventes, achats et profit par jour</li>
+    <li><strong>Repartition</strong> : proportions ventes vs achats en donut</li>
+    <li><strong>Table de marges</strong> : marge nette par recette, nombre de ventes, profit total. Permet d'identifier les plats les plus rentables.</li>
+  </ul>
+</div>
+
+<!-- ==================== 8. DEFIS ==================== -->
+<div class="section" id="defis">
+  <h2>8. Defis Techniques Rencontres</h2>
+
+  <h3>Persistance de l'etat du service entre les pages</h3>
+  <p><strong>Probleme :</strong> Quand le joueur naviguait vers le Shop pendant le service, les commandes disparaissaient car l'etat etait local au composant ServicePage.</p>
+  <p><strong>Solution :</strong> Creation d'un <code>GameContext</code> global qui ecoute les evenements Socket.io au niveau de l'application entiere. Ajout d'un evenement <code>service:status</code> pour resynchroniser l'etat complet a tout moment.</p>
+
+  <h3>Synchronisation HTTP / WebSocket</h3>
+  <p><strong>Probleme :</strong> Le shop utilise l'API REST (HTTP) pour acheter des ingredients, mais le service utilise les WebSockets. Apres un achat, le stock affiche sur la page Service n'etait pas a jour.</p>
+  <p><strong>Solution :</strong> Appel de <code>refreshStatus()</code> (qui emet <code>service:status</code> via socket) a chaque montage de la page Service, permettant de resynchroniser le stock.</p>
+
+  <h3>Arret du service sans perdre les commandes</h3>
+  <p><strong>Probleme :</strong> Le bouton "Stop" arretait tout, y compris les commandes en cours que le joueur aurait pu servir.</p>
+  <p><strong>Solution :</strong> Distinction entre <code>stopGenerating()</code> (arrete uniquement la creation de nouvelles commandes) et <code>stopOrderLoop()</code> (arret complet). Les commandes actives conservent leurs timers d'expiration.</p>
+
+  <h3>Coherence de la tresorerie</h3>
+  <p><strong>Probleme :</strong> La tresorerie affichee dans la navbar (provenant d'AuthContext au login) et celle du service (mise a jour en temps reel) etaient differentes.</p>
+  <p><strong>Solution :</strong> La navbar lit desormais la tresorerie du <code>GameContext</code> qui recoit les mises a jour en temps reel via socket, garantissant une valeur toujours a jour partout.</p>
+
+  <h3>Transactions atomiques pour l'economie</h3>
+  <p><strong>Probleme :</strong> Sans precaution, deux achats simultanes pourraient depasser le budget.</p>
+  <p><strong>Solution :</strong> Utilisation de transactions MySQL avec <code>BEGIN</code>, <code>FOR UPDATE</code> (verrouillage de ligne), <code>COMMIT</code>/<code>ROLLBACK</code>. Chaque operation economique est atomique et isolee.</p>
+</div>
+
+<!-- ==================== 9. APPRENTISSAGES ==================== -->
+<div class="section" id="apprentissages">
+  <h2>9. Apprentissages</h2>
+
+  <h3>Competences techniques acquises</h3>
+  <ul>
+    <li><strong>Architecture fullstack</strong> : structurer un projet client/serveur avec separation des responsabilites (controllers, services, middleware, contextes)</li>
+    <li><strong>WebSockets avec Socket.io</strong> : communication bidirectionnelle en temps reel, gestion d'evenements, authentification sur le canal socket</li>
+    <li><strong>Transactions SQL</strong> : garantir l'integrite des donnees avec <code>BEGIN/COMMIT/ROLLBACK</code> et les verrous <code>FOR UPDATE</code></li>
+    <li><strong>Authentification JWT</strong> : implementation complete d'un systeme stateless (register, login, middleware, token dans headers)</li>
+    <li><strong>React Context API</strong> : gestion d'etat global sans librairie externe, avec des contextes imbriques pour separer les responsabilites</li>
+    <li><strong>React DnD</strong> : implementation d'interactions drag &amp; drop avec <code>useDrag</code>/<code>useDrop</code></li>
+    <li><strong>Chart.js</strong> : visualisation de donnees avec des graphiques interactifs et configurables</li>
+    <li><strong>Migrations SQL</strong> : evolution incrementale d'un schema de base de donnees</li>
+  </ul>
+
+  <h3>Competences transversales</h3>
+  <ul>
+    <li><strong>Game Design</strong> : equilibrage des mecaniques (satisfaction, timing, prix) pour creer une tension de jeu</li>
+    <li><strong>Gestion d'etat distribue</strong> : synchroniser l'etat entre HTTP et WebSocket, entre differentes pages, entre client et serveur</li>
+    <li><strong>Debug en temps reel</strong> : comprendre les race conditions, les desynchronisations, et les problemes de lifecycle React</li>
+    <li><strong>Approche iterative</strong> : developper par paliers fonctionnels, chaque palier construisant sur le precedent</li>
+    <li><strong>Securite web</strong> : hashage de mots de passe, tokens JWT, CORS, requetes parametrees contre les injections SQL</li>
+  </ul>
+
+  <div class="box-green box">
+    <strong>Conclusion :</strong> Ce projet nous a permis de mettre en pratique l'ensemble de la stack web moderne dans un contexte ludique et exigeant techniquement. La composante temps reel (Socket.io) et la gestion d'etat distribue entre HTTP et WebSocket ont ete les defis les plus formateurs. L'approche par paliers a permis d'avancer de maniere structuree tout en maintenant une application fonctionnelle a chaque etape.
+  </div>
+</div>
+
+</body>
+</html>
